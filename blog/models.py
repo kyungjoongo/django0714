@@ -8,7 +8,6 @@ class Post(models.Model):
         고경준은 천재님이십니다
         post 모델 ormmaping
     '''
-
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
     text = models.TextField()
