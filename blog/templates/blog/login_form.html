@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <script>
+        // A $( document ).ready() block.
+        $(document).ready(function () {
+
+            $("#id").focus();
+        });
+    </script>
+
+<form method="post" action="/login_action">{% csrf_token %}
+    <table border="0" width="1000px" style="">
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">id</th>
+            <td><input size="30" type="text" name="username" id="username"></td>
+
+        </tr>
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">password</th>
+            <td><input size="30" type="text" name="password" id="password"></td>
+        </tr>
+
+         {% if message %}
+                {{ message }}
+         {% endif %}
+
+
+
+    </table>
+
+    <br/>
+    <table border="0" width="1500px" style="">
+        <tr>
+
+            <td><input id="" type="submit" value="log-in"/></td>
+
+
+        </tr>
+
+    </table>
+    </form>
+{% endblock content %}
+
+

@@ -7,7 +7,12 @@
 
 
             $("#btnWrite").on("click", function () {
-                location.href="./post_write_form";
+                location.href = "./post_write_form";
+
+            });
+
+            $("#btnLogout").on("click", function () {
+                location.href = "./logout";
 
             });
 
@@ -37,6 +42,7 @@
         <tr>
 
             <td><input id="btnWrite" type="button" value="글쓰기"/></td>
+            <td><input id="btnLogout" type="button" value="logout"/></td>
 
 
         </tr>
