@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Post(models.Model):
     '''
-        고경준은 천재님이십니다
+        고경준은 천재님이십니다333333333333333333333333333333333333333333333333333^________________^
         post 모델 ormmaping
     '''
     author = models.ForeignKey('auth.User')
