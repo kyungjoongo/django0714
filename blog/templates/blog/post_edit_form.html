@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <script>
+        // A $( document ).ready() block.
+        $(document).ready(function () {
+
+
+            $("#btnSave").on("click", function () {
+
+
+            });
+
+        });
+    </script>
+
+<form method="post" action="/edit_post/{{ post.id }}/">{% csrf_token %}
+    <table border="0" width="1000px" style="">
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">author</th>
+            <td><input readonly type="text" name="author" value="{{ post.author }}"></td>
+        </tr>
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">title</th>
+            <td><input size="102" type="text" name="title" value="{{ post.title }}"></td>
+
+        </tr>
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">text</th>
+            <td><textarea cols="100" rows="15" name="text">{{ post.text }}</textarea>
+        </tr>
+
+    </table>
+
+    <br/>
+    <table border="0" width="1500px" style="">
+        <tr>
+
+            <td><input id="" type="submit" value="저장"/></td>
+
+
+        </tr>
+
+    </table>
+    </form>
+{% endblock content %}
+
+

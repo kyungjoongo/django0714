@@ -1,0 +1,52 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <script>
+        // A $( document ).ready() block.
+        $(document).ready(function () {
+
+            $("#author_id").focus();
+
+
+            {% comment %}$("#btnSave").on("click", function () {
+
+
+            });{% endcomment %}
+
+        });
+    </script>
+
+<form method="post" action="/save_post">{% csrf_token %}
+    <table border="0" width="1000px" style="">
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">author</th>
+            <td><input style="background-color: #eaeaea" type="text" name="author_id" id="author_id" readonly value="{{ request.user.username }}"></td>
+        </tr>
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">title</th>
+            <td><input size="100" type="text" name="title"></td>
+
+        </tr>
+        <tr>
+            <th width="150" style="background-color: #fffccf;text-align: center">text</th>
+            <td><textarea cols="100" rows="15" name="text"></textarea>
+        </tr>
+
+         {% comment %}{{ form.as_table }}{% endcomment %}
+
+    </table>
+
+    <br/>
+    <table border="0" width="1500px" style="">
+        <tr>
+
+            <td><input id="" type="submit" value="저장"/></td>
+
+
+        </tr>
+
+    </table>
+    </form>
+{% endblock content %}
+
+
