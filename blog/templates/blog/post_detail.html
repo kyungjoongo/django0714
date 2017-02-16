@@ -31,24 +31,9 @@
         });
     </script>
 
+<div id="container">
 
-    <table border="1" cellpadding="0" width="1800px">
-
-       {% comment %} <tr>
-            <td width="80" style="background-color: #eaeaea; text-align: center">글쓴이</td>
-            <td>{{ post.author }}</td>
-        </tr>
-        <tr>
-            <td width="80" style="background-color: #eaeaea; text-align: center">title</td>
-            <td>{{ post.title }}</td>
-        </tr>
-
-        <tr>
-            <td width="80" style="background-color: #eaeaea; text-align: center">contents</td>
-            <td>{{ post.text|linebreaksbr }}</td>
-        </tr>{% endcomment %}
-
-    <table border="0" width="1000px" style="">
+    <table border="0"  style="width:800px; " class="table">
         <tr>
             <th width="150" style="background-color: #fffccf;text-align: center">author</th>
             <td><input style="background-color: #edecd6" readonly type="text" name="author" value="{{ post.author }}"></td>
@@ -68,7 +53,7 @@
 
     </table>
     <br/>
-    <table border="0" cellpadding="0" width="150px">
+    <table border="0" cellpadding="0" width="150px" class="table" style="width: 150px">
         <tr>
             <td><input id="goList" type="button" value="목록"></td>
             <td><input id="btnDelete" type="button" value="삭제" idValue="{{ post.id }}"></td>
@@ -78,6 +63,6 @@
 
 
     </table>
-
+</div>
 
 {% endblock %}

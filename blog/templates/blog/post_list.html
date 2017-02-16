@@ -18,36 +18,35 @@
 
         });
     </script>
+    <div class="container-fluid" style="font-size: 9pt;" >
+        <table border="1"   class="table table-hover table-condensed table-striped table-bordered" style="width: 800px;">
+            <tr class="">
+                <th style="background-color: #fffccf">id</th>
+                <th style="background-color: #fffccf">author</th>
+                <th style="background-color: #fffccf">생성일</th>
+                <th style="background-color: #fffccf">제목</th>
 
-
-    <table border="1" width="1500px" style="">
-        <tr>
-            <th style="background-color: #fffccf">id</th>
-            <th style="background-color: #fffccf">author</th>
-            <th style="background-color: #fffccf">생성일</th>
-            <th style="background-color: #fffccf">제목</th>
-
-        </tr>
-        {% for post in posts %}
-            <tr>
-                <td>{{ post.id }}</td>
-                <td>{{ post.author }}</td>
-                <td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></td>
-                <td>{{ post.created_date }}</td>
             </tr>
-        {% endfor %}
-    </table>
-    <br/>
-    <table border="0" width="150" style="">
-        <tr>
+            {% for post in posts %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.author }}</td>
+                    <td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></td>
+                    <td>{{ post.created_date }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <table border="0" width="150" style="">
+            <tr>
 
-            <td><input id="btnWrite" type="button" value="글쓰기"/></td>
-            <td><input id="btnLogout" type="button" value="logout"/></td>
+                <td><input id="btnWrite" type="button" value="글쓰기"/></td>
+                <td><input id="btnLogout" type="button" value="logout"/></td>
 
 
-        </tr>
+            </tr>
 
-    </table>
+        </table>
+    </div>
 {% endblock content %}
 
 
