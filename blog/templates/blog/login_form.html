@@ -5,40 +5,46 @@
         // A $( document ).ready() block.
         $(document).ready(function () {
 
-            $("#id").focus();
+            $("#username").focus();
+
+            //facebook_login
+
+            $("#facebook_login").on("click", function () {
+
+                alert("facebook_login");
+            });
         });
     </script>
 
-<form method="post" action="/login_action">{% csrf_token %}
-    <table border="0" width="1000px" style="">
-        <tr>
-            <th width="150" style="background-color: #fffccf;text-align: center">id</th>
-            <td><input size="30" type="text" name="username" id="username"></td>
+    <form method="post" action="/login_action">{% csrf_token %}
+        <table border="0" width="1000px" style="">
+            <tr>
+                <th width="150" style="background-color: #fffccf;text-align: center">id</th>
+                <td><input size="30" type="text" name="username" id="username"></td>
 
-        </tr>
-        <tr>
-            <th width="150" style="background-color: #fffccf;text-align: center">password</th>
-            <td><input size="30" type="text" name="password" id="password"></td>
-        </tr>
+            </tr>
+            <tr>
+                <th width="150" style="background-color: #fffccf;text-align: center">password</th>
+                <td><input size="30" type="text" name="password" id="password"></td>
+            </tr>
 
-         {% if message %}
+            {% if message %}
                 {{ message }}
-         {% endif %}
+            {% endif %}
 
 
+        </table>
 
-    </table>
+        <br/>
+        <table border="0" width="300" style="">
+            <tr>
 
-    <br/>
-    <table border="0" width="1500px" style="">
-        <tr>
+                <td><input id="" type="submit" value="log-in"/></td>
 
-            <td><input id="" type="submit" value="log-in"/></td>
+                <td><input id="facebook_login" type="button" value="facebook-login"/></td>
+            </tr>
 
-
-        </tr>
-
-    </table>
+        </table>
     </form>
 {% endblock content %}
 
