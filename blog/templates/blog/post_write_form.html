@@ -7,45 +7,43 @@
 
             $("#author_id").focus();
 
-
-            {% comment %}$("#btnSave").on("click", function () {
-
-
-            });{% endcomment %}
-
         });
+
+
     </script>
 
-<form method="post" action="/save_post">{% csrf_token %}
-    <table border="0" width="1000px" style="">
-        <tr>
-            <th width="150" style="background-color: #fffccf;text-align: center">author</th>
-            <td><input style="background-color: #eaeaea" type="text" name="user" id="user" readonly value="{{ request.user.username }}"></td>
-        </tr>
-        <tr>
-            <th width="150" style="background-color: #fffccf;text-align: center">title</th>
-            <td><input size="100" type="text" name="title"></td>
+    <form method="post" action="/save_post">{% csrf_token %}
+        <table border="0" width="1000px" style="">
+            <tr>
+                <th width="150" style="background-color: #fffccf;text-align: center">author</th>
+                <td><input style="background-color: #eaeaea" type="text" name="user" id="user" readonly
+                           value="{{ request.user.username }}"></td>
+            </tr>
+            <tr>
+                <th width="150" style="background-color: #fffccf;text-align: center">title</th>
+                <td><input size="100" type="text" name="title" data-emojiable="true"></td>
 
-        </tr>
-        <tr>
-            <th width="150" style="background-color: #fffccf;text-align: center">text</th>
-            <td><textarea cols="100" rows="15" name="text"></textarea>
-        </tr>
+            </tr>
+            <tr>
+                <th width="150" style="background-color: #fffccf;text-align: center">text</th>
+                <td><textarea cols="100" rows="15" name="text" id="textarea1"></textarea>
 
-         {% comment %}{{ form.as_table }}{% endcomment %}
+            </tr>
 
-    </table>
+            {% comment %}{{ form.as_table }}{% endcomment %}
 
-    <br/>
-    <table border="0" width="1500px" style="">
-        <tr>
+        </table>
 
-            <td><input id="" type="submit" value="저장"/></td>
+        <br/>
+        <table border="0" width="1500px" style="">
+            <tr>
+
+                <td><input id="" type="submit" value="저장"/></td>
 
 
-        </tr>
+            </tr>
 
-    </table>
+        </table>
     </form>
 {% endblock content %}
 
