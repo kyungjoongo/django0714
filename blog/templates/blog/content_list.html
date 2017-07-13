@@ -42,19 +42,20 @@
             </tr>
         </table>
         <table>
-            <tr class="">
+            {% comment %}<tr class="">
                 <th style="background-color: #fffccf">id</th>
                 <th style="background-color: #fffccf">author</th>
                 <th style="background-color: #fffccf">title</th>
                 <th style="background-color: #fffccf">image</th>
-            </tr>
+            </tr>{% endcomment %}
 
             {% for uploadfilemodelOne in uploadfilemodel %}
                 <tr>
                     <td>{{ uploadfilemodelOne.id }}</td>
                     <td>{{ uploadfilemodelOne.author }}</td>
                     <td>{{ uploadfilemodelOne.title }}</td>
-
+                </tr>
+                <tr>
                     <td><img style="width: 200px;height: 200px;" src="/media/{{ uploadfilemodelOne.file }}"</td>
                 </tr>
             {% endfor %}

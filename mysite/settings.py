@@ -26,7 +26,7 @@ SECRET_KEY = '#t4w9jtim2=8s6=mlyz)tkc3!3sg08jy@+ug0=fp3b+n(3vf12'
 DEBUG = True
 
 #ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['104.199.247.86']
+ALLOWED_HOSTS = ['104.199.247.86', 'localhost', '127.0.0.1']
 
 
 
@@ -79,19 +79,19 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    # 'ENGINE': 'django.db.backends.sqlite3',
-    # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #}
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test2',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': '',
-        'POST': '',
-
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': os.path.join(BASE_DIR, 'db.sqlite3-1'),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'test2',
+    #     'USER': 'root',
+    #     'PASSWORD': '',
+    #     'HOST': '',
+    #     'POST': '',
+    #
+    # }
 
 }
 
@@ -115,3 +115,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+APPEND_SLASH = False

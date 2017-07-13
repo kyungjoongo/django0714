@@ -7,7 +7,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
@@ -18,11 +18,20 @@
     <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+    <script src="{% static "js/jquery-1.9.js" %}" type="application/javascript" />
+
+
+
 
     <title></title>
 </head>
 <body>
-<div><h1> django crud board PJT.</h1></div>
+<script>
+
+
+
+</script>
+{% comment %}<div><h1> django crud board PJT.</h1></div>{% endcomment %}
 {% block content %}
 {% endblock content %}
 

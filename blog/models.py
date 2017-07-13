@@ -24,3 +24,9 @@ class Test(models.Model):
 
     def publish(self):
         self.save()
+
+
+class UploadFileModel(models.Model):
+    title = models.TextField(default='')
+    author =models.CharField(default='',max_length=50)
+    file = models.FileField(null=True)

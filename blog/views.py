@@ -1,18 +1,22 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
-from .models import Post
-from django.utils import timezone
-from .form import PostForm
-from django.shortcuts import render, get_object_or_404, redirect  # Create your views here.
-from django.views.decorators.csrf import csrf_exempt
+from blog.form import UploadFileForm
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
-from django.contrib import auth
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect  # Create your views here.
+from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+
+from .form import PostForm
+from .models import Post
+from .models import UploadFileModel
 
 
-def post_list(request):
+
+
+def content_list(request):
     posts = Post.objects.order_by('-id')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    uploadfilemodel = UploadFileModel.objects.order_by('-id')
+    return render(request, 'blog/content_list.html', {'posts': posts, 'uploadfilemodel': uploadfilemodel})
 
 
 def post_detail(request, pk):
@@ -28,7 +32,7 @@ def post_write_form(request):
 def login_form(request):
     #로긴이 되어있는 경우에는 목록을 보여준다
     if request.user.is_authenticated():
-        return redirect("/post_list")
+        return redirect("/content_list")
     else:
         return render(request, 'blog/login_form.html')
 
@@ -61,17 +65,34 @@ def post_edit_form(request, pk):
 
 
 @csrf_exempt
-def save_post(request):
-    if request.method == "POST":
-        form = PostForm(request.POST)
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/content_list')
+    else:
+        form = UploadFileForm()
+    return render(request, 'blog/upload.html', {'form': form})
+
+
+
+@csrf_exempt
+def save_post(request):
+
+    if request.method == 'POST':
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            m = ExampleModel.objects.get(pk=id)
+            m.model_pic = form.cleaned_data['image']
+            m.save()
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
             return redirect('/post_list')
-    else:
-        form = PostForm()
+        else:
+            form = PostForm()
 
     return render(request, 'blog/post_write_form.html', {'form': form})
 
@@ -79,14 +100,14 @@ def save_post(request):
 @csrf_exempt
 def login_action(request):
 
-    username = request.POST.get("username", "denise77")
+    username = request.POST.get("username")
     password = request.POST.get("password", "1114")
 
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
         # Redirect to a success page.
-        return redirect('/post_list')
+        return redirect('/content_list')
     else:
         # Return an 'invalid login' error message.
         return render(request, 'blog/login_form.html', {'message':'로긴에 실패했어요'})
