@@ -48,9 +48,14 @@
 
                 {% comment %}alert('sldkflsdkflksdflk');{% endcomment %}
                 var page = " {{  current_page_no  }}";
-                alert(parseInt(page) + 1);
+
+
+
+             //   alert(parseInt(page) + 1);
 
                 var nextPage = parseInt(page) + 1;
+
+                alert(nextPage);
 
                 $.ajax({
                     url: '/json_content_list',
@@ -58,19 +63,17 @@
                     data: {page_no: parseInt(nextPage)},
                     success: function (data) {
 
-                        {% comment %}for (var i=0; i< data.length;i++){
+                        var _html = "";
 
-                            alert(data[i].fields.author);
-                        }{% endcomment %}
+                        for (var i=0; i< data.length;i++){
 
+                            _html = _html + "<tr><td>" + data[i].fields.id + "</td>";
+                            _html = _html + "<td>" + data[i].fields.author + "</td>";
+                            _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
+                            _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/"+data[i].fields.file +"'></td></tr>";
+                        }
 
-                        var theTemplateScript = $("#tmpl1").html();
-                        var theTemplate = Handlebars.compile(theTemplateScript);
-                        $('#table1').append(theTemplate(data));
-
-
-                        alert("sdflksdlfkdslkf");
-                        alert(data);
+                        $('#table1').append(_html);
 
                     },
                     error: function () {
@@ -85,6 +88,7 @@
 
 
     </script>
+    <input type="text" id="currentPage" value="{{  current_page_no }}" >
 
 
     <div class="container-fluid" style="font-size: 9pt;">
@@ -141,18 +145,3 @@
     </div>
 
 {% endblock content %}
-
-{{ django_context_varable }}
-{% verbatim %}
-<script id="tmpl1" type="text/x-handlebars-template">​
-
-    {{#each data|handlebars}}​
-    <tr class="shoes">
-        <td>{{ fields.author|handlebars }}</td>
-    </tr>​
-    {{/each|handlebars}}
-
-</script>
-
-{%  endverbatim %}
-

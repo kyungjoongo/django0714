@@ -62,7 +62,10 @@ def json_content_list(request):
     paginator = Paginator(uploadfilemodelList, 10)
     uploadfilemodelList = paginator.page(current_page_no)
 
-    response = serializers.serialize("json", uploadfilemodelList)
+
+
+
+    response = serializers.serialize("json", {'uploadfilemodel': uploadfilemodelList,'current_page_no': int(current_page_no)})
     return HttpResponse(response, content_type='application/json')
 
 
