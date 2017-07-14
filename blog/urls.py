@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', views.login_form),
     url(r'^post_write_form', views.post_write_form, name='post_write_form'),
     url(r'^content_list', views.content_list, name='content_list'),
+    url(r'^json_content_list', views.json_content_list, name='json_content_list'),
     url(r'^upload_file', views.upload_file, name='upload_file'),
     url(r'^post_detail/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
 

@@ -1,12 +1,11 @@
 {% extends 'blog/base.html' %}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js" type="javascript"></script>
+
 {% block content %}
     <script>
         // A $( document ).ready() block.
         $(document).ready(function () {
-
-
-            //   alert("sdlfksdlkfsdlkf");
 
             var isMobile = false; //initiate as false
 // device detection
@@ -31,7 +30,63 @@
 
 
         });
+
+
+        function element_in_scroll(elem) {
+            var docViewTop = $(window).scrollTop();
+            var docViewBottom = docViewTop + $(window).height();
+
+            var elemTop = $(elem).offset().top;
+            var elemBottom = elemTop + $(elem).height();
+
+            return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+        }
+
+        $(document).scroll(function (e) {
+            if (element_in_scroll("#post")) {
+                //Here you must do what you need to achieve the infinite scroll effect...
+
+                {% comment %}alert('sldkflsdkflksdflk');{% endcomment %}
+                var page = " {{  current_page_no  }}";
+                alert(parseInt(page) + 1);
+
+                var nextPage = parseInt(page) + 1;
+
+                $.ajax({
+                    url: '/json_content_list',
+                    type: 'GET',
+                    data: {page_no: parseInt(nextPage)},
+                    success: function (data) {
+
+                        {% comment %}for (var i=0; i< data.length;i++){
+
+                            alert(data[i].fields.author);
+                        }{% endcomment %}
+
+
+                        var theTemplateScript = $("#tmpl1").html();
+                        var theTemplate = Handlebars.compile(theTemplateScript);
+                        $('#table1').append(theTemplate(data));
+
+
+                        alert("sdflksdlfkdslkf");
+                        alert(data);
+
+                    },
+                    error: function () {
+                        alert("error");
+                    }
+                });
+
+
+            }
+            ;
+        });
+
+
     </script>
+
+
     <div class="container-fluid" style="font-size: 9pt;">
 
         <table border="0" width="150" style="">
@@ -41,13 +96,13 @@
                 <td><input id="btnLogout" type="button" value="logout"/></td>
             </tr>
         </table>
-        <table>
-            {% comment %}<tr class="">
+        <table id="table1">
+            <tr class="">
                 <th style="background-color: #fffccf">id</th>
                 <th style="background-color: #fffccf">author</th>
                 <th style="background-color: #fffccf">title</th>
                 <th style="background-color: #fffccf">image</th>
-            </tr>{% endcomment %}
+            </tr>
 
             {% for uploadfilemodelOne in uploadfilemodel %}
                 <tr>
@@ -61,6 +116,43 @@
             {% endfor %}
         </table>
     </div>
+
+    <table width="500px" border="1">
+        <tr>
+            <td>
+
+                {% for i in paginator.page_range %}
+
+                    {% comment %}{{ i }}{% endcomment %}
+                    {% if i == current_page_no %}
+                        <a style="color: red"> {{ i }}</a>
+                    {% else %}
+                        <a href="/content_list?page_no={{ i }}">{{ i }}</a>
+                    {% endif %}
+
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+
+    <div id="post">
+
+
+    </div>
+
 {% endblock content %}
 
+{{ django_context_varable }}
+{% verbatim %}
+<script id="tmpl1" type="text/x-handlebars-template">​
+
+    {{#each data|handlebars}}​
+    <tr class="shoes">
+        <td>{{ fields.author|handlebars }}</td>
+    </tr>​
+    {{/each|handlebars}}
+
+</script>
+
+{%  endverbatim %}
 

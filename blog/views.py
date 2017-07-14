@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from blog.form import UploadFileForm
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect  # Create your views here.
 from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
@@ -10,13 +10,71 @@ from .form import PostForm
 from .models import Post
 from .models import UploadFileModel
 
+from django.core.paginator import Paginator
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
+from django.core import serializers
 
+from django import template
+register = template.Library()
+
+def handlebars(value):
+    return '{{%s}}' % value
+
+register.filter('handlebars', handlebars)
 
 
 def content_list(request):
-    posts = Post.objects.order_by('-id')
-    uploadfilemodel = UploadFileModel.objects.order_by('-id')
-    return render(request, 'blog/content_list.html', {'posts': posts, 'uploadfilemodel': uploadfilemodel})
+    posts = Post.objects.order_by('id')
+    current_page_no = 1
+    # initialize
+    r = request.GET
+    rg = request.GET.get
+
+    # write simply as below
+    if r.has_key('page_no') and rg('page_no') != '':
+        current_page_no = request.GET['page_no']
+
+    uploadfilemodelList = UploadFileModel.objects.order_by('-id')
+
+    paginator = Paginator(uploadfilemodelList, 10)
+
+    uploadfilemodelList = paginator.page(current_page_no)
+
+    return render(request, 'blog/content_list.html',
+                  {'posts': posts, 'uploadfilemodel': uploadfilemodelList, 'paginator': paginator,
+                   'current_page_no': int(current_page_no)})
+
+
+
+@csrf_exempt
+def json_content_list(request):
+    current_page_no = 1
+    r = request.GET
+    rg = request.GET.get
+
+    # write simply as below
+    if r.has_key('page_no') and rg('page_no') != '':
+        current_page_no = request.GET['page_no']
+
+
+    uploadfilemodelList = UploadFileModel.objects.order_by('-id').all()
+    paginator = Paginator(uploadfilemodelList, 10)
+    uploadfilemodelList = paginator.page(current_page_no)
+
+    response = serializers.serialize("json", uploadfilemodelList)
+    return HttpResponse(response, content_type='application/json')
+
+
+
+    # JsonResponse(model_to_dict(uploadfilemodelList))
+
+
+    # return JsonResponse({ 'uploadfilemodel': uploadfilemodelList, 'paginator': paginator,'current_page_no': int(current_page_no)})
+
+
+
+
 
 
 def post_detail(request, pk):
@@ -30,9 +88,12 @@ def post_write_form(request):
 
 
 def login_form(request):
-    #로긴이 되어있는 경우에는 목록을 보여준다
+    # 로긴이 되어있는 경우에는 목록을 보여준다
     if request.user.is_authenticated():
-        return redirect("/content_list")
+        # return redirect("/content_list", {'page_no', 1})
+        response = redirect("/content_list")
+        response['Location'] += '?page_no=1'
+        return response
     else:
         return render(request, 'blog/login_form.html')
 
@@ -49,7 +110,7 @@ def logout(request):
     user = getattr(request, 'user', None)
     if hasattr(user, 'is_authenticated') and not user.is_authenticated():
         user = None
-#    user_logged_out.send(sender=user.__class__, request=request, user=user)
+    #    user_logged_out.send(sender=user.__class__, request=request, user=user)
 
     request.session.flush()
     if hasattr(request, 'user'):
@@ -76,10 +137,8 @@ def upload_file(request):
     return render(request, 'blog/upload.html', {'form': form})
 
 
-
 @csrf_exempt
 def save_post(request):
-
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -99,7 +158,6 @@ def save_post(request):
 
 @csrf_exempt
 def login_action(request):
-
     username = request.POST.get("username")
     password = request.POST.get("password", "1114")
 
@@ -110,12 +168,11 @@ def login_action(request):
         return redirect('/content_list')
     else:
         # Return an 'invalid login' error message.
-        return render(request, 'blog/login_form.html', {'message':'로긴에 실패했어요'})
+        return render(request, 'blog/login_form.html', {'message': '로긴에 실패했어요'})
 
 
 def edit_post(request, pk):
     '''post edit action'''
-
 
     # fetch pk에 해당하는 post모델 인스턴를 가지고 온다.
     post = get_object_or_404(Post, pk=pk)
@@ -144,5 +201,3 @@ def delete_post(request, pk):
     post.id = pk
     post.delete()
     return redirect('/')
-
-

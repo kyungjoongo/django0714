@@ -5,6 +5,9 @@
         // A $( document ).ready() block.
         $(document).ready(function () {
 
+            alert("sdlfksdlkfsldkflskdflk");
+
+
 
             //   alert("sdlfksdlkfsdlkf");
 
@@ -32,45 +35,7 @@
 
         });
 
-        $(window).load(function () {
-            $("#dhvc_id").trigger('click');
-            return false;
-        });
-        //$ loading
-        $(document).ready(function () {
-            $('#dhvc_id').click(function (e) {
-                e.preventDefault();
 
-                var tab_id = $(this).attr('id');
-
-                $.ajax({
-                    type: "GET",
-                    url: "http://sevek.staging.wpengine.com/wp-admin/admin-ajax.php",
-                    dataType: 'html',
-                    data: ({action: 'royal_front_tab', id: tab_id}),
-                    success: function (data) {
-                        $('.dhvc_demo').html(data);
-
-                        $('.dhvc-woo-row-fluid.dhvc-woo-grid-list').infinitescroll({
-                            navSelector: $('.dhvc-woo-pagination'),
-                            nextSelector: $('.dhvc-woo-pagination > a.next'),
-                            itemSelector: '.dhvc-woo-row-fluid.dhvc-woo-grid-list > .dhvc-woo-row-fluid',
-                            contentSelector: $('.dhvc-woo-row-fluid.dhvc-woo-grid-list'),
-                            msgText: " "
-                        }, function (newElements) {
-                            $('.dhvc-woo-separator').remove();
-                            $('.dhvc-woo-row-fluid.dhvc-woo-grid-list > .dhvc-woo-row-fluid').after('<div class="dhvc-woo-separator"></div>');
-                        });
-                    },
-                    error: function (data) {
-                        alert("Error!");
-                        return false;
-                    }
-
-                });
-
-            });
-        });
     </script>
     <div class="container-fluid" style="font-size: 9pt;">
 
