@@ -60,19 +60,19 @@ def json_content_list(request):
 
     uploadfilemodelList = UploadFileModel.objects.order_by('-id').all()
     paginator = Paginator(uploadfilemodelList, 10)
-    uploadfilemodelList = paginator.page(current_page_no)
 
+    if int(current_page_no) <=int(paginator.num_pages) :
+        uploadfilemodelList = paginator.page(current_page_no)
+        response = serializers.serialize("json", uploadfilemodelList)
+        return HttpResponse(response, content_type='application/json')
 
+    else:
+        response = {'result': 'None'}
+        import json
+        return HttpResponse(json.dumps(response), content_type='application/json')
 
-
-    response = serializers.serialize("json", {'uploadfilemodel': uploadfilemodelList,'current_page_no': int(current_page_no)})
-    return HttpResponse(response, content_type='application/json')
-
-
-
+    # {'uploadfilemodel': uploadfilemodelList,'current_page_no': int(current_page_no)}
     # JsonResponse(model_to_dict(uploadfilemodelList))
-
-
     # return JsonResponse({ 'uploadfilemodel': uploadfilemodelList, 'paginator': paginator,'current_page_no': int(current_page_no)})
 
 

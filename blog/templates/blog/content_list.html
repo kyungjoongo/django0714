@@ -1,8 +1,13 @@
+
+
 {% extends 'blog/base.html' %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js" type="javascript"></script>
 
+{% load staticfiles %}
+
 {% block content %}
+
     <script>
         // A $( document ).ready() block.
         $(document).ready(function () {
@@ -47,7 +52,7 @@
                 //Here you must do what you need to achieve the infinite scroll effect...
 
                 {% comment %}alert('sldkflsdkflksdflk');{% endcomment %}
-                var page = " {{  current_page_no  }}";
+                var page =    $("#currentPage").val();
 
 
 
@@ -55,25 +60,38 @@
 
                 var nextPage = parseInt(page) + 1;
 
-                alert(nextPage);
+{#                alert(nextPage);#}
 
+
+                $("#loadingImage0").show();
                 $.ajax({
                     url: '/json_content_list',
                     type: 'GET',
                     data: {page_no: parseInt(nextPage)},
                     success: function (data) {
 
+
+                        if ( data.length >0){
+                            $("#currentPage").val(nextPage);
+                        }
+
                         var _html = "";
 
                         for (var i=0; i< data.length;i++){
 
-                            _html = _html + "<tr><td>" + data[i].fields.id + "</td>";
+                            _html = _html + "<tr><td>" + data[i].pk + "</td>";
                             _html = _html + "<td>" + data[i].fields.author + "</td>";
                             _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
                             _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/"+data[i].fields.file +"'></td></tr>";
+
+
                         }
 
+
+
                         $('#table1').append(_html);
+
+                        $("#loadingImage0").hide();
 
                     },
                     error: function () {
@@ -138,10 +156,14 @@
             </td>
         </tr>
     </table>
+    <div id="post"></div>
 
-    <div id="post">
 
-
-    </div>
+    <div id="loadingImage0">
+    <p style="position: absolute; color: White; top: 50%; left: 45%;display:block">
+        로딩중...
+        <img src="{% static "images/loading12.gif" %}">
+    </p>
+</div>
 
 {% endblock content %}
