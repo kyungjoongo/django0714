@@ -12,6 +12,9 @@
         // A $( document ).ready() block.
         $(document).ready(function () {
 
+            getList(1);
+
+
             var isMobile = false; //initiate as false
 // device detection
             if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent)
@@ -47,57 +50,97 @@
             return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
         }
 
-        $(document).scroll(function (e) {
-            if (element_in_scroll("#post")) {
-                //Here you must do what you need to achieve the infinite scroll effect...
+        function sleepFor(sleepDuration) {
+            var now = new Date().getTime();
+            while (new Date().getTime() < now + sleepDuration) { /* do nothing */
+            }
+        }
 
-                {% comment %}alert('sldkflsdkflksdflk');{% endcomment %}
-                var page =    $("#currentPage").val();
-
-
-
-             //   alert(parseInt(page) + 1);
-
-                var nextPage = parseInt(page) + 1;
-
-{#                alert(nextPage);#}
+        function getList(page){
 
 
-                $("#loadingImage0").show();
-                $.ajax({
+            console.log(page);
+
+            sleepFor(500);
+
+            $.ajax({
                     url: '/json_content_list',
                     type: 'GET',
-                    data: {page_no: parseInt(nextPage)},
+                    async : false,
+                    data: {page_no: parseInt(page)},
+                    timeout : 5000,
                     success: function (data) {
-
-
-                        if ( data.length >0){
-                            $("#currentPage").val(nextPage);
-                        }
 
                         var _html = "";
 
-                        for (var i=0; i< data.length;i++){
+                        for (var i = 0; i < data.length; i++) {
 
-                            _html = _html + "<tr><td>" + data[i].pk + "</td>";
+                            _html = _html + "<tr><td>{{ request.user.username }}</td>";
+                            _html = _html + "<td>" + data[i].pk + "</td>";
                             _html = _html + "<td>" + data[i].fields.author + "</td>";
                             _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
-                            _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/"+data[i].fields.file +"'></td></tr>";
+                            _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/" + data[i].fields.file + "'></td></tr>";
 
 
                         }
 
 
-
                         $('#table1').append(_html);
+
+
+                        if (data.length > 0) {
+                            $("#currentPage").val(parseInt(page));
+                        }
 
                         $("#loadingImage0").hide();
 
                     },
                     error: function () {
                         alert("error");
+                    },
+                    done : function (data) {
+
+
+                     {% comment %}   var _html = "";
+
+                        for (var i = 0; i < data.length; i++) {
+
+                            _html = _html + "<tr><td>{{ request.user.username }}</td>";
+                            _html = _html + "<td>" + data[i].pk + "</td>";
+                            _html = _html + "<td>" + data[i].fields.author + "</td>";
+                            _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
+                            _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/" + data[i].fields.file + "'></td></tr>";
+
+
+                        }
+
+
+                        $('#table1').append(_html);
+
+
+                        if (data.length > 0) {
+                            $("#currentPage").val(parseInt(page));
+                        }
+
+                        $("#loadingImage0").hide();{% endcomment %}
+
                     }
                 });
+
+
+        }
+
+
+        $(document).scroll(function (e) {
+            if (element_in_scroll("#post")) {
+
+                var page = $("#currentPage").val();
+                $("#loadingImage0").show();
+
+
+                var nextPage = parseInt(page) + 1;
+
+                getList(nextPage);
 
 
             }
@@ -106,10 +149,10 @@
 
 
     </script>
-    <input type="text" id="currentPage" value="{{  current_page_no }}" >
+    <input type="text" id="currentPage" value="{{ current_page_no }}">
 
 
-    <div class="container-fluid" style="font-size: 9pt;">
+   {% comment %} <div class="container-fluid" style="font-size: 9pt;">
 
         <table border="0" width="150" style="">
             <tr>
@@ -120,6 +163,7 @@
         </table>
         <table id="table1">
             <tr class="">
+                <th>&nbsp;</th>
                 <th style="background-color: #fffccf">id</th>
                 <th style="background-color: #fffccf">author</th>
                 <th style="background-color: #fffccf">title</th>
@@ -128,6 +172,7 @@
 
             {% for uploadfilemodelOne in uploadfilemodel %}
                 <tr>
+                    <td>{{ request.user.username }}'</td>
                     <td>{{ uploadfilemodelOne.id }}</td>
                     <td>{{ uploadfilemodelOne.author }}</td>
                     <td>{{ uploadfilemodelOne.title }}</td>
@@ -137,7 +182,12 @@
                 </tr>
             {% endfor %}
         </table>
-    </div>
+    </div>{% endcomment %}
+    <table id="table1">
+
+    </table>
+
+    <div id="post"></div>
 
     <table width="500px" border="1">
         <tr>
@@ -145,7 +195,7 @@
 
                 {% for i in paginator.page_range %}
 
-                    {% comment %}{{ i }}{% endcomment %}
+                    {{ i }}
                     {% if i == current_page_no %}
                         <a style="color: red"> {{ i }}</a>
                     {% else %}
@@ -156,14 +206,14 @@
             </td>
         </tr>
     </table>
-    <div id="post"></div>
+
 
 
     <div id="loadingImage0">
-    <p style="position: absolute; color: White; top: 50%; left: 45%;display:block">
-        로딩중...
-        <img src="{% static "images/loading12.gif" %}">
-    </p>
-</div>
+        <p style="position: absolute; color: White; bottm: 5px; left: 5px;display:block">
+            로딩중...
+            <img src="{% static "images/loading12.gif" %}">
+        </p>
+    </div>
 
 {% endblock content %}
