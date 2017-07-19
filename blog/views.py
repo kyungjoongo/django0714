@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
+
 from blog.form import UploadFileForm
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, HttpResponse
@@ -24,6 +26,7 @@ def handlebars(value):
 register.filter('handlebars', handlebars)
 
 
+@login_required(login_url="/login_form/")
 def content_list(request):
     posts = Post.objects.order_by('id')
     current_page_no = 1
@@ -83,6 +86,8 @@ def json_content_list(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'blog/post_detail.html', {'post': post})
+
+
 
 
 def post_write_form(request):
