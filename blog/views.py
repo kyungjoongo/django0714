@@ -49,6 +49,26 @@ def content_list(request):
                    'current_page_no': int(current_page_no)})
 
 
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse, HttpResponseRedirect
+
+
+def send_email(request):
+    subject = request.POST.get('subject', 'test')
+    message = request.POST.get('message', 'sdfasdfjksdjfkj_고경준 처냊닙이비낭린ㅇㄹㄴdflkdslfksdkf')
+    from_email = request.POST.get('from_email', 'kyungjoong.go@gmail.com')
+    if subject and message and from_email:
+        try:
+            send_mail(subject, message, from_email, ['kyungjoon.go@gmail.com'])
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
+        return HttpResponseRedirect('/contact/thanks/')
+    else:
+        # In reality we'd use a form class
+        # to get proper validation errors.
+        return HttpResponse('Make sure all fields are entered and valid.')
+
+
 
 @csrf_exempt
 def json_content_list(request):

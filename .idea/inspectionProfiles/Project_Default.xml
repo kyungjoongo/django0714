@@ -14,10 +14,17 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="3">
+          <list size="10">
             <item index="0" class="java.lang.String" itemvalue="MySQL-python" />
             <item index="1" class="java.lang.String" itemvalue="wsgiref" />
             <item index="2" class="java.lang.String" itemvalue="Flask" />
+            <item index="3" class="java.lang.String" itemvalue="app" />
+            <item index="4" class="java.lang.String" itemvalue="mysqlclient" />
+            <item index="5" class="java.lang.String" itemvalue="Flask-MySQL" />
+            <item index="6" class="java.lang.String" itemvalue="PyMySQL" />
+            <item index="7" class="java.lang.String" itemvalue="antiorm" />
+            <item index="8" class="java.lang.String" itemvalue="db" />
+            <item index="9" class="java.lang.String" itemvalue="simplejson" />
           </list>
         </value>
       </option>

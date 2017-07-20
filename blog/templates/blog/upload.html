@@ -1,5 +1,16 @@
- <form method="post" enctype="multipart/form-data" novalidate>
+<form method="post" action="upload_file" enctype="multipart/form-data" novalidate>
     {% comment %}{% csrf_token %}{% endcomment %}
-    {{ form.as_p }}
-    <button type="submit">Upload</button>
-  </form>
+
+    <form method="post" enctype="multipart/form-data" novalidate>
+
+        <p><label for="id_title">Title:</label> <textarea name="title" id="id_title" rows="10" cols="40" required></textarea>
+        </p>
+        <p><label for="id_file">File:</label> <input type="file" name="file" required id="id_file"/></p>
+        <p><label for="id_author">Author:</label> <input type="text" name="author" required id="id_author" readonly
+                                                         maxlength="50" value="{{ request.user.username }}"/></p>
+
+        <button type="submit">Upload</button>
+    </form>
+
+
+</form>

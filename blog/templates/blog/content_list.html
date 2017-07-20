@@ -74,14 +74,11 @@
                         var _html = "";
 
                         for (var i = 0; i < data.length; i++) {
-
-                            _html = _html + "<tr><td>{{ request.user.username }}</td>";
-                            _html = _html + "<td>" + data[i].pk + "</td>";
-                            _html = _html + "<td>" + data[i].fields.author + "</td>";
+                            _html = _html + "<tr><td>"+ data[i].fields.author+  "</td>";
+                            _html = _html + "<td width=100px>" + data[i].pk + "</td>";
+                            {% comment %}_html = _html + "<td>" + data[i].fields.author + "</td>";{% endcomment %}
                             _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
                             _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/" + data[i].fields.file + "'></td></tr>";
-
-
                         }
 
 
@@ -99,31 +96,6 @@
                         alert("error");
                     },
                     done : function (data) {
-
-
-                     {% comment %}   var _html = "";
-
-                        for (var i = 0; i < data.length; i++) {
-
-                            _html = _html + "<tr><td>{{ request.user.username }}</td>";
-                            _html = _html + "<td>" + data[i].pk + "</td>";
-                            _html = _html + "<td>" + data[i].fields.author + "</td>";
-                            _html = _html + "<td>" + data[i].fields.title + "</td></tr>";
-                            _html = _html + "<tr><td><img style='width: 200px;height: 200px;' src='/media/" + data[i].fields.file + "'></td></tr>";
-
-
-                        }
-
-
-                        $('#table1').append(_html);
-
-
-                        if (data.length > 0) {
-                            $("#currentPage").val(parseInt(page));
-                        }
-
-                        $("#loadingImage0").hide();{% endcomment %}
-
                     }
                 });
 
@@ -149,7 +121,8 @@
 
 
     </script>
-    <input type="text" id="currentPage" value="{{ current_page_no }}">
+    <input type="button" value="writeForm" id="btnWrite" >
+    <input type="hidden" id="currentPage" value="{{ current_page_no }}">
 
 
    {% comment %} <div class="container-fluid" style="font-size: 9pt;">
@@ -189,7 +162,7 @@
 
     <div id="post"></div>
 
-    <table width="500px" border="1">
+  {% comment %}  <table width="500px" border="1">
         <tr>
             <td>
 
@@ -205,7 +178,7 @@
                 {% endfor %}
             </td>
         </tr>
-    </table>
+    </table>{% endcomment %}
 
 
 
